@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Kuis PPLG - Multi Topik</title>
+  <style>
+    body {
+      font-family: "Segoe UI", sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f4f7f9;
+      color: #333;
+    }
+    header {
+      text-align: center;
+      padding: 20px;
+      background-color: #1e3a8a;
+      color: white;
+    }
+    header img {
+      width: 80px;
+      margin-bottom: 10px;
+    }
+    .container {
+      max-width: 800px;
+      margin: 20px auto;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h2 {
+      color: #1e3a8a;
+    }
+    .question {
+      margin-bottom: 20px;
+    }
+    .options label {
+      display: block;
+      padding: 10px;
+      border: 1px solid #ccc;
+      margin-bottom: 5px;
+      border-radius: 5px;
+      cursor: pointer;
+      background-color: #f9f9f9;
+      transition: background 0.2s;
+    }
+    .options label:hover {
+      background-color: #e0e7ff;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      margin-top: 20px;
+      border: none;
+      border-radius: 5px;
+      background-color: #1e3a8a;
+      color: white;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #3749a2;
+    }
+    .result {
+      margin-top: 30px;
+      padding: 20px;
+      background-color: #d1fae5;
+      border-left: 5px solid #10b981;
+      border-radius: 5px;
+      display: none;
+    }
+    .correct {
+      background-color: #d1fae5;
+      border-color: #10b981;
+    }
+    .incorrect {
+      background-color: #fee2e2;
+      border-color: #ef4444;
+    }
+    .feedback {
+      font-weight: bold;
+      margin-top: 5px;
+    }
+    @media screen and (max-width: 600px) {
+      .container {
+        margin: 10px;
+        padding: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <img src="https://edwaranas11.github.io/soal-pplg1/LOGO%20SMK.png" alt="Logo Sekolah" />
+    <h1>Kuis PPLG - Multi Topik</h1>
+    <p>Oleh Edwar Anas, S.Kom</p>
+  </header>
+
+  <div class="container" id="quiz-container">
+    <form id="quizForm"></form>
+    <div class="result" id="resultBox"></div>
+    <button type="button" onclick="submitQuiz()">Selesai</button>
+    <button type="button" onclick="location.reload()" style="display: none;" id="retryBtn">Coba Lagi</button>
+  </div>
+
+  <script>
+    const questions = [
+      // Perangkat Keras Komputer
+      { question: "1. Perangkat keras yang berfungsi memproses semua perintah pada komputer adalah…", options: ["RAM", "CPU", "Hard Disk", "GPU"], answer: 1 },
+      { question: "2. Perangkat keras yang digunakan untuk menyimpan data sementara adalah…", options: ["RAM", "SSD", "HDD", "Monitor"], answer: 0 },
+      { question: "3. Mengapa SSD lebih cepat dibanding HDD?", options: ["Karena ukurannya lebih besar", "Karena tidak memiliki komponen mekanis", "Karena menggunakan layar sentuh", "Karena beratnya lebih ringan"], answer: 1 },
+
+      // Teknologi dalam Dunia Kesehatan (HealthTech)
+      { question: "4. Teknologi yang memungkinkan pasien berkonsultasi dengan dokter jarak jauh disebut…", options: ["Telemedicine", "Biosensor", "Radiologi", "Endoskopi"], answer: 0 },
+      { question: "5. Alat kesehatan yang dapat dipakai untuk memantau detak jantung dan aktivitas fisik secara real-time adalah…", options: ["Termometer digital", "Stetoskop", "Smartwatch kesehatan", "Mikroskop"], answer: 2 },
+      { question: "6. Salah satu tantangan utama penerapan AI dalam diagnosis medis adalah…", options: ["Harga internet yang murah", "Kurangnya tenaga medis", "Bias data dan risiko kesalahan diagnosis", "Banyaknya rumah sakit modern"], answer: 2 },
+
+      // Green Technology dan Sustainability
+      { question: "7. Tujuan utama green technology adalah…", options: ["Meningkatkan penggunaan bahan bakar fosil", "Mengurangi dampak negatif terhadap lingkungan", "Memperbanyak limbah industri", "Mempercepat kerusakan alam"], answer: 1 },
+      { question: "8. Contoh teknologi ramah lingkungan yang digunakan untuk menghasilkan listrik adalah…", options: ["Pembangkit listrik tenaga uap batubara", "Panel surya", "Mesin diesel", "Generator bensin"], answer: 1 },
+      { question: "9. Salah satu prinsip sustainability adalah…", options: ["Konsumsi sumber daya tanpa batas", "Mengelola sumber daya agar tetap tersedia untuk generasi mendatang", "Membuang limbah sembarangan", "Menggunakan teknologi hanya untuk industri besar"], answer: 1 },
+
+      // Open Source dan Ekosistem Perangkat Lunak
+      { question: "10. Perangkat lunak open source adalah perangkat lunak yang…", options: ["Gratis digunakan selamanya", "Kode sumbernya dapat diakses, dipelajari, dan dimodifikasi", "Tidak bisa diubah sama sekali", "Hanya digunakan oleh perusahaan besar"], answer: 1 },
+      { question: "11. Contoh sistem operasi open source adalah…", options: ["Windows 11", "macOS", "Linux Ubuntu", "Chrome OS versi komersial"], answer: 2 },
+      { question: "12. Salah satu keuntungan open source adalah…", options: ["Biaya lisensi tinggi", "Dukungan komunitas yang luas", "Tidak ada pembaruan keamanan", "Tidak bisa digunakan di server"], answer: 1 },
+
+      // Digitalisasi Pendidikan dan Teknologi Edukasi
+      { question: "13. Salah satu manfaat digitalisasi pendidikan adalah…", options: ["Siswa hanya belajar di ruang kelas", "Pembelajaran dapat diakses kapan saja dan di mana saja", "Mengurangi penggunaan teknologi", "Menghapus kebutuhan guru"], answer: 1 },
+      { question: "14. Platform yang digunakan untuk mengelola pembelajaran online disebut…", options: ["Learning Management System (LMS)", "Spreadsheet", "Media Player", "Kompilator"], answer: 0 },
+      { question: "15. Salah satu tantangan digitalisasi pendidikan di daerah terpencil adalah…", options: ["Kurangnya materi pembelajaran", "Akses internet yang terbatas", "Banyaknya guru yang menguasai teknologi", "Murahnya perangkat digital"], answer: 1 }
+    ];
+
+    const quizForm = document.getElementById("quizForm");
+    questions.forEach((q, index) => {
+      const div = document.createElement("div");
+      div.className = "question";
+      div.innerHTML = `<h2>${q.question}</h2><div class="options">` +
+        q.options.map((opt, i) => `
+          <label>
+            <input type="radio" name="q${index}" value="${i}"/> ${opt}
+          </label>`).join("") +
+        `</div><div class="feedback" id="feedback${index}"></div>`;
+      quizForm.appendChild(div);
+    });
+
+    function submitQuiz() {
+      const answers = questions.map((_, i) =>
+        document.querySelector(`input[name="q${i}"]:checked`)
+      );
+
+      if (answers.includes(null)) {
+        alert("Silakan jawab semua soal terlebih dahulu!");
+        return;
+      }
+
+      let score = 0;
+      answers.forEach((ans, i) => {
+        const correct = questions[i].answer;
+        const feedbackEl = document.getElementById(`feedback${i}`);
+        const labels = document.querySelectorAll(`input[name="q${i}"]`);
+
+        labels.forEach(input => {
+          const label = input.closest("label");
+          label.classList.remove("correct", "incorrect");
+          if (parseInt(input.value) === correct) {
+            label.classList.add("correct");
+          }
+        });
+
+        if (parseInt(ans.value) === correct) {
+          score++;
+          feedbackEl.textContent = "✔ Benar";
+          feedbackEl.style.color = "green";
+        } else {
+          feedbackEl.textContent = `✖ Salah. Jawaban yang benar: ${questions[i].options[correct]}`;
+          feedbackEl.style.color = "red";
+          ans.closest("label").classList.add("incorrect");
+        }
+      });
+
+      const resultBox = document.getElementById("resultBox");
+      resultBox.style.display = "block";
+      resultBox.innerHTML = `<strong>Skor Kamu: ${score} / ${questions.length}</strong><br>Terus semangat belajar ya!`;
+
+      document.querySelector("button[onclick='submitQuiz()']").style.display = "none";
+      document.getElementById("retryBtn").style.display = "inline-block";
+    }
+  </script>
+</body>
+</html>
