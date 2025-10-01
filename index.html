@@ -105,88 +105,85 @@
   </div>
 
   <script>
-    const questions = [
-      // Perangkat Keras Komputer
-      { question: "1. Perangkat keras yang berfungsi memproses semua perintah pada komputer adalah…", options: ["RAM", "CPU", "Hard Disk", "GPU"], answer: 1 },
-      { question: "2. Perangkat keras yang digunakan untuk menyimpan data sementara adalah…", options: ["RAM", "SSD", "HDD", "Monitor"], answer: 0 },
-      { question: "3. Mengapa SSD lebih cepat dibanding HDD?", options: ["Karena ukurannya lebih besar", "Karena tidak memiliki komponen mekanis", "Karena menggunakan layar sentuh", "Karena beratnya lebih ringan"], answer: 1 },
+  const questions = [
+    // Cloud Computing & Teknologi Awan
+    { question: "1. Layanan komputasi awan yang menyediakan infrastruktur dasar seperti server, storage, dan jaringan disebut…", options: ["IaaS", "PaaS", "SaaS", "DBaaS"], answer: 0 },
+    { question: "2. Contoh layanan SaaS yang populer adalah…", options: ["Google Drive", "Microsoft Azure", "Amazon EC2", "VMware ESXi"], answer: 0 },
+    { question: "3. Keuntungan utama cloud computing bagi perusahaan adalah…", options: ["Biaya operasional lebih tinggi", "Akses terbatas hanya di kantor", "Skalabilitas dan fleksibilitas", "Tidak memerlukan internet"], answer: 2 },
+    { question: "4. Model cloud yang digunakan secara khusus oleh satu organisasi adalah…", options: ["Public Cloud", "Private Cloud", "Hybrid Cloud", "Community Cloud"], answer: 1 },
+    { question: "5. Layanan cloud yang menyediakan platform untuk pengembangan aplikasi tanpa perlu mengelola infrastruktur adalah…", options: ["SaaS", "PaaS", "IaaS", "CaaS"], answer: 1 },
 
-      // Teknologi dalam Dunia Kesehatan (HealthTech)
-      { question: "4. Teknologi yang memungkinkan pasien berkonsultasi dengan dokter jarak jauh disebut…", options: ["Telemedicine", "Biosensor", "Radiologi", "Endoskopi"], answer: 0 },
-      { question: "5. Alat kesehatan yang dapat dipakai untuk memantau detak jantung dan aktivitas fisik secara real-time adalah…", options: ["Termometer digital", "Stetoskop", "Smartwatch kesehatan", "Mikroskop"], answer: 2 },
-      { question: "6. Salah satu tantangan utama penerapan AI dalam diagnosis medis adalah…", options: ["Harga internet yang murah", "Kurangnya tenaga medis", "Bias data dan risiko kesalahan diagnosis", "Banyaknya rumah sakit modern"], answer: 2 },
+    // Game Development
+    { question: "6. Engine game yang banyak digunakan untuk membuat game 2D dan 3D adalah…", options: ["Photoshop", "Unity", "AutoCAD", "Blender"], answer: 1 },
+    { question: "7. Dalam pengembangan game, FPS berarti…", options: ["Frame Per Second", "Fast Processing Speed", "File Processing System", "First Programming Setup"], answer: 0 },
+    { question: "8. Bahasa pemrograman utama yang digunakan di Unity adalah…", options: ["Java", "C#", "Python", "C++"], answer: 1 },
+    { question: "9. Genre game yang menekankan pada strategi dan pengelolaan sumber daya adalah…", options: ["RPG", "RTS", "FPS", "MOBA"], answer: 1 },
+    { question: "10. Salah satu tahapan penting dalam pembuatan game sebelum rilis adalah…", options: ["Debugging dan Testing", "Menghapus semua script", "Mengabaikan feedback", "Melewati tahap desain"], answer: 0 },
 
-      // Green Technology dan Sustainability
-      { question: "7. Tujuan utama green technology adalah…", options: ["Meningkatkan penggunaan bahan bakar fosil", "Mengurangi dampak negatif terhadap lingkungan", "Memperbanyak limbah industri", "Mempercepat kerusakan alam"], answer: 1 },
-      { question: "8. Contoh teknologi ramah lingkungan yang digunakan untuk menghasilkan listrik adalah…", options: ["Pembangkit listrik tenaga uap batubara", "Panel surya", "Mesin diesel", "Generator bensin"], answer: 1 },
-      { question: "9. Salah satu prinsip sustainability adalah…", options: ["Konsumsi sumber daya tanpa batas", "Mengelola sumber daya agar tetap tersedia untuk generasi mendatang", "Membuang limbah sembarangan", "Menggunakan teknologi hanya untuk industri besar"], answer: 1 },
+    // Sistem Operasi
+    { question: "11. Sistem operasi yang bersifat open source dan sering digunakan di server adalah…", options: ["Windows", "Linux", "macOS", "DOS"], answer: 1 },
+    { question: "12. Kernel dalam sistem operasi berfungsi untuk…", options: ["Menjalankan aplikasi game", "Menghubungkan hardware dengan software", "Meningkatkan kecepatan internet", "Menghapus file otomatis"], answer: 1 },
+    { question: "13. Contoh sistem operasi mobile yang populer adalah…", options: ["Ubuntu", "Windows 7", "Android", "MS-DOS"], answer: 2 },
+    { question: "14. Sistem operasi yang dikembangkan oleh Apple untuk komputer Mac adalah…", options: ["iOS", "Windows", "macOS", "Linux Mint"], answer: 2 },
+    { question: "15. Tugas utama sistem operasi adalah…", options: ["Mengelola sumber daya komputer", "Membuat desain grafis", "Menulis kode program", "Menghubungkan internet"], answer: 0 }
+  ];
 
-      // Open Source dan Ekosistem Perangkat Lunak
-      { question: "10. Perangkat lunak open source adalah perangkat lunak yang…", options: ["Gratis digunakan selamanya", "Kode sumbernya dapat diakses, dipelajari, dan dimodifikasi", "Tidak bisa diubah sama sekali", "Hanya digunakan oleh perusahaan besar"], answer: 1 },
-      { question: "11. Contoh sistem operasi open source adalah…", options: ["Windows 11", "macOS", "Linux Ubuntu", "Chrome OS versi komersial"], answer: 2 },
-      { question: "12. Salah satu keuntungan open source adalah…", options: ["Biaya lisensi tinggi", "Dukungan komunitas yang luas", "Tidak ada pembaruan keamanan", "Tidak bisa digunakan di server"], answer: 1 },
+  const quizForm = document.getElementById("quizForm");
+  questions.forEach((q, index) => {
+    const div = document.createElement("div");
+    div.className = "question";
+    div.innerHTML = `<h2>${q.question}</h2><div class="options">` +
+      q.options.map((opt, i) => `
+        <label>
+          <input type="radio" name="q${index}" value="${i}"/> ${opt}
+        </label>`).join("") +
+      `</div><div class="feedback" id="feedback${index}"></div>`;
+    quizForm.appendChild(div);
+  });
 
-      // Digitalisasi Pendidikan dan Teknologi Edukasi
-      { question: "13. Salah satu manfaat digitalisasi pendidikan adalah…", options: ["Siswa hanya belajar di ruang kelas", "Pembelajaran dapat diakses kapan saja dan di mana saja", "Mengurangi penggunaan teknologi", "Menghapus kebutuhan guru"], answer: 1 },
-      { question: "14. Platform yang digunakan untuk mengelola pembelajaran online disebut…", options: ["Learning Management System (LMS)", "Spreadsheet", "Media Player", "Kompilator"], answer: 0 },
-      { question: "15. Salah satu tantangan digitalisasi pendidikan di daerah terpencil adalah…", options: ["Kurangnya materi pembelajaran", "Akses internet yang terbatas", "Banyaknya guru yang menguasai teknologi", "Murahnya perangkat digital"], answer: 1 }
-    ];
+  function submitQuiz() {
+    const answers = questions.map((_, i) =>
+      document.querySelector(`input[name="q${i}"]:checked`)
+    );
 
-    const quizForm = document.getElementById("quizForm");
-    questions.forEach((q, index) => {
-      const div = document.createElement("div");
-      div.className = "question";
-      div.innerHTML = `<h2>${q.question}</h2><div class="options">` +
-        q.options.map((opt, i) => `
-          <label>
-            <input type="radio" name="q${index}" value="${i}"/> ${opt}
-          </label>`).join("") +
-        `</div><div class="feedback" id="feedback${index}"></div>`;
-      quizForm.appendChild(div);
-    });
+    if (answers.includes(null)) {
+      alert("Silakan jawab semua soal terlebih dahulu!");
+      return;
+    }
 
-    function submitQuiz() {
-      const answers = questions.map((_, i) =>
-        document.querySelector(`input[name="q${i}"]:checked`)
-      );
+    let score = 0;
+    answers.forEach((ans, i) => {
+      const correct = questions[i].answer;
+      const feedbackEl = document.getElementById(`feedback${i}`);
+      const labels = document.querySelectorAll(`input[name="q${i}"]`);
 
-      if (answers.includes(null)) {
-        alert("Silakan jawab semua soal terlebih dahulu!");
-        return;
-      }
-
-      let score = 0;
-      answers.forEach((ans, i) => {
-        const correct = questions[i].answer;
-        const feedbackEl = document.getElementById(`feedback${i}`);
-        const labels = document.querySelectorAll(`input[name="q${i}"]`);
-
-        labels.forEach(input => {
-          const label = input.closest("label");
-          label.classList.remove("correct", "incorrect");
-          if (parseInt(input.value) === correct) {
-            label.classList.add("correct");
-          }
-        });
-
-        if (parseInt(ans.value) === correct) {
-          score++;
-          feedbackEl.textContent = "✔ Benar";
-          feedbackEl.style.color = "green";
-        } else {
-          feedbackEl.textContent = `✖ Salah. Jawaban yang benar: ${questions[i].options[correct]}`;
-          feedbackEl.style.color = "red";
-          ans.closest("label").classList.add("incorrect");
+      labels.forEach(input => {
+        const label = input.closest("label");
+        label.classList.remove("correct", "incorrect");
+        if (parseInt(input.value) === correct) {
+          label.classList.add("correct");
         }
       });
 
-      const resultBox = document.getElementById("resultBox");
-      resultBox.style.display = "block";
-      resultBox.innerHTML = `<strong>Skor Kamu: ${score} / ${questions.length}</strong><br>Terus semangat belajar ya!`;
+      if (parseInt(ans.value) === correct) {
+        score++;
+        feedbackEl.textContent = "✔ Benar";
+        feedbackEl.style.color = "green";
+      } else {
+        feedbackEl.textContent = `✖ Salah. Jawaban yang benar: ${questions[i].options[correct]}`;
+        feedbackEl.style.color = "red";
+        ans.closest("label").classList.add("incorrect");
+      }
+    });
 
-      document.querySelector("button[onclick='submitQuiz()']").style.display = "none";
-      document.getElementById("retryBtn").style.display = "inline-block";
-    }
-  </script>
+    const resultBox = document.getElementById("resultBox");
+    resultBox.style.display = "block";
+    resultBox.innerHTML = `<strong>Skor Kamu: ${score} / ${questions.length}</strong><br>Terus semangat belajar ya!`;
+
+    document.querySelector("button[onclick='submitQuiz()']").style.display = "none";
+    document.getElementById("retryBtn").style.display = "inline-block";
+  }
+</script>
+
 </body>
 </html>
